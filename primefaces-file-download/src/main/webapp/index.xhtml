@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta charset="utf-8" />
+		<title>Primefaces FileDownload</title>
+	</h:head>
+
+	<h:body>
+
+		<h4>Primefaces FileDownload</h4>
+	
+		<h:form id="mainForm">
+			<p:growl id="growl">
+				<p:autoUpdate />
+			</p:growl>
+
+			<p:dataTable var="foo" 
+				rowKey="#{foo.id}"
+				expandedRow="true"
+				value="#{indexController.foos}">
+
+				<f:facet name="header">
+					<div style="text-align:center">Foos</div>
+				</f:facet>
+				
+				<p:column style="width:2rem">
+                	<p:rowToggler/>
+				</p:column>
+
+				<p:column headerText="Id">
+					<h:outputText value="#{foo.id}" />
+				</p:column>
+
+				<p:column headerText="Description">
+					<h:outputText value="#{foo.description}" />
+				</p:column>
+
+				<p:column headerText="Actions">
+					<p:commandButton process="@this"
+						title="Details"
+						icon="pi pi-info"
+						action="#{indexController.showFooDetails(foo)}" />
+				</p:column>
+				
+				<p:rowExpansion>
+					<p:dataTable var="bar" value="#{foo.bars}">
+						
+						<f:facet name="header">
+							<div style="text-align:center">Bars</div>
+						</f:facet>
+
+						<p:column headerText="Id">
+							<h:outputText value="#{bar.id}" />
+						</p:column>
+
+						<p:column headerText="Description">
+							<h:outputText value="#{bar.description}" />
+						</p:column>
+
+						<p:column headerText="Actions">
+							<p:commandButton process="@this"
+								icon="pi pi-info"
+								title="Details"
+								action="#{indexController.showBarDetails(bar)}" />
+								
+							<p:commandButton title="Download" 
+								ajax="false"
+								icon="pi pi-arrow-down"
+								style="margin-left:10px">
+
+								<p:fileDownload value="#{downloadController.downloadImage(bar)}"/>
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:rowExpansion>
+			</p:dataTable>
+		</h:form>
+	</h:body>
+</html>
