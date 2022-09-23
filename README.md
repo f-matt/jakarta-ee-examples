@@ -1,1 +1,1 @@
-# java-ee-examples
+# A collection of Java EE / Jakarta EE source code examples.

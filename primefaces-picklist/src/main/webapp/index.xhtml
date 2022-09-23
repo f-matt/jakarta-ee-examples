@@ -16,18 +16,22 @@
 		<h4>Primefaces PickList</h4>
 	
 		<h:form id="mainForm">
-		 	<p:pickList value="#{indexController.listModel}" var="entity" itemValue="#{entity}" itemLabel="#{entity.description}">
-            	<o:converter converterId="omnifaces.ListConverter" list="#{indexController.listModel.source}" />
+		 	<p:pickList value="#{indexController.listModel}" 
+				var="entity" 
+				itemValue="#{entity}" 
+				itemLabel="#{entity.description}"
+				converter="myEntityConverter">
+
         	</p:pickList>
         	
-        	<div class="p-grid">
+        	<p:outputPanel id="pnlOutput" styleClass="p-grid">
         		<div class="p-col-12">
-        			<p:commandButton id="btnSend" value="Send" action="#{indexController.send}" update="@form" />
+        			<p:commandButton id="btnSend" value="Send" action="#{indexController.send}" update="pnlOutput" />
         		</div>
         		
         		<div class="p-col-2">Selected:</div>
         		<div class="p-col-10">#{indexController.selected}</div>
-        	</div>
+			</p:outputPanel>
 		</h:form>
 	</h:body>
 </html>

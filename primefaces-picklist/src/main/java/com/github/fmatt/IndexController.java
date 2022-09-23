@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -15,7 +16,11 @@ import org.primefaces.model.DualListModel;
 @ViewScoped
 public class IndexController implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private Logger logger = Logger.getAnonymousLogger();
+
+	private List<MyEntity> source;
+
+	private List<MyEntity> target;
 	
 	private DualListModel<MyEntity> listModel;
 	
@@ -23,12 +28,16 @@ public class IndexController implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		List<MyEntity> source = Arrays.asList(new MyEntity(1, "Entity A"), new MyEntity(2, "Entity B"), new MyEntity(3, "Entity C"));
+		source = Arrays.asList(new MyEntity(1, "Entity A"), new MyEntity(2, "Entity B"), new MyEntity(3, "Entity C"));
+		target = new ArrayList<>();
 		
-		listModel = new DualListModel<MyEntity>(source, new ArrayList<>());
+		listModel = new DualListModel<MyEntity>(source, target);
 	}
 	
 	public void send() {
+		logger.info(listModel.getSource().toString());
+		logger.info(listModel.getTarget().toString());
+
 		selected = "";
 		
 		for (MyEntity entity : listModel.getTarget())
