@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta charset="utf-8" />
+		<title>Primefaces Chart Extender</title>
+		<h:outputScript library="js" name="main.js" />
+	</h:head>
+
+	<h:body>
+		<h4>Primefaces Chart Extender</h4>
+	
+		<h:form id="mainForm">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<p:lineChart model="#{indexController.scatterModel}" style="width: 100%; height: 500px;" />
+				</div>
+			</div>
+		</h:form>
+	</h:body>
+</html>

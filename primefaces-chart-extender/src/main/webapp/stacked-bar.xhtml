@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta charset="utf-8" />
+		<title>Primefaces Chart Extender</title>
+		<h:outputScript library="js" name="bar.js" />
+	</h:head>
+
+	<h:body>
+		<h4>Primefaces Chart Extender: Stacked Bar</h4>
+	
+		<h:form id="mainForm">
+			<div class="card">
+				<p:barChart model="#{stackedBarController.barModel}" style="width: 100%; height: 500px;"/>
+			</div>
+		</h:form>
+	</h:body>
+</html>
