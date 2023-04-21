@@ -10,9 +10,11 @@
     </h:head>
     
     <h:body>
-        <p:growl id="growl" showDetail="false" sticky="false">
-			<p:autoUpdate />
-		</p:growl>
+        <p:growl id="growl" widgetVar="growl" showDetail="false" sticky="false">
+            <p:autoUpdate />
+        </p:growl>
+
+        <p:growl id="wsGrowl" widgetVar="wsGrowl" />
 
         <ui:insert name="content"></ui:insert>
     </h:body>

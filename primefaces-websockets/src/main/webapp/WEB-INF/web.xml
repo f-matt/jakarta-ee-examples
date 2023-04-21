@@ -14,9 +14,16 @@
 	</context-param>
 
 	<context-param>
+		<param-name>org.omnifaces.SOCKET_ENDPOINT_ENABLED</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- Bugfix available in myfaces 2.3.15
+	<context-param>
 		<param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	-->
 	
 	<security-constraint>
     	<web-resource-collection>
@@ -29,7 +36,10 @@
 	<security-constraint>
     	<web-resource-collection>
     		<web-resource-name>auth</web-resource-name>
+			<!-- Bugfix available on 2.3.15 
         	<url-pattern>/javax.faces.push/*</url-pattern>
+			-->
+        	<url-pattern>/omnifaces.push/*</url-pattern>
         	<url-pattern>/index.jsf</url-pattern>
     	</web-resource-collection>
     	<auth-constraint>
