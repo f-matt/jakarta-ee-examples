@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="formUpload" enctype="multipart/form-data">
+		<p:dialog id="dlgUpload" 
+			widgetVar="dlgUpload"
+			header="Upload" 
+			modal="true" 
+			width="80%">
+    			
+			<p:outputPanel id="pnlUpload">
+				<p:outputLabel for="name" value="Name:" />
+				<p:inputText id="name" value="#{dialogUploadsView.product.name}" />
+				<br/>
+				<br/>
+
+				<p:fileUpload label="New"
+					value="#{dialogUploadsView.uploadedFile}"
+					mode="simple"
+					allowTypes="/(\.|\/)(pdf)$/" 
+					invalidFileMessage="Only PDF files allowed."
+					sizeLimit="5000000" 
+					invalidSizeMessage="Maximum allowed size of 5MB."
+					skinSimple="true"
+					process="@this"
+					update="@none" />
+				<br/>
+				<br/>
+
+				<p:commandButton value="Save" 
+					action="#{dialogUploadsView.save}" 
+					ajax="false" />
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+</ui:composition>
