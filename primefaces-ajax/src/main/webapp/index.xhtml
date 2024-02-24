@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<h:head>
+		<meta charset="utf-8" />
+		<title>Primefaces Ajax</title>
+	</h:head>
+
+	<h:body>
+		<h4>Primefaces Ajax</h4>
+	
+		<h:form id="mainForm">
+			<p:growl id="growl" showDetail="false" />
+
+			<div class="ui-fluid p-formgrid p-grid">
+				<div class="p-field p-col-12 p-md-12">
+					<p:outputLabel for="name" value="Name" />
+					<p:inputText id="name"
+						required="true"
+						value="#{indexController.name}" />
+				</div>
+
+				<div class="p-field p-col-12 p-md-12">
+					<p:selectOneRadio id="radio" value="#{indexController.radio}">
+						<f:selectItem itemLabel="Option1" itemValue="op1"/>
+						<f:selectItem itemLabel="Option2" itemValue="op2"/>
+						<f:selectItem itemLabel="Option3" itemValue="op3"/>
+
+						<p:ajax global="false" event="valueChange" update="pnlOption2" />
+					</p:selectOneRadio>
+				</div>
+
+				<p:outputPanel id="pnlOption2" styleClass="p-field p-col-12 p-md-12">
+					<p:outputLabel id="lblExtra" 
+						for="extra"
+						value="Extra:"
+						rendered="#{indexController.radio.equals('op2')}"  />
+					<p:inputText id="extra" 
+						rendered="#{indexController.radio.equals('op2')}"  
+						value="#{indexController.extra}" />
+				</p:outputPanel>
+        	
+        		<div class="p-field p-col-12 p-md-2">
+        			<p:commandButton id="btnSave" 
+						value="Save" 
+						actionListener="#{indexController.save}" 
+						update="growl" />
+        		</div>
+			</div>
+		</h:form>
+	</h:body>
+</html>
