@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/facelets">
+
+    <h:head>
+        <title>Base Project</title>
+    </h:head>
+    
+    <h:body>
+        <h3>#{mainController.message}</h3>
+
+        <div id="superset-container" style="width: 100%; height: 800px"></div>
+
+        <script src="https://unpkg.com/@superset-ui/embedded-sdk"></script>
+        <h:outputScript>
+            async function fetchGuestTokenFromBackend() {
+                try {
+                    const body = {
+                        user: {
+                            username: "admin",
+                            first_name: "admin",
+                            last_name: "user"
+                        },
+                        resources: [
+                            {
+                                type: "dashboard",
+                                id: "b9af0cd3-d46f-408b-aa3b-0b92dad93369"
+                            },
+                        ],
+                        rls: [],
+                    };
+ 
+                    const response = await fetch("http://localhost:8088/api/v1/security/guest_token/", 
+                        {
+                            method: "POST",
+                            body: JSON.stringify(body),
+                            headers: {
+                                "Authorization": "Bearer #{mainController.accessToken}",
+                                "Content-type": "application/json; charset=UTF-8",
+                                "Access-Control-Allow-Origin": "*",
+                                "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+                                "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With"
+                            },
+                        }
+                    );
+
+                    const jsonResponse = await response.json();
+                    return jsonResponse?.token;
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            supersetEmbeddedSdk.embedDashboard({
+                id: "b9af0cd3-d46f-408b-aa3b-0b92dad93369", // given by the Superset embedding UI
+                supersetDomain: "http://localhost:8088",
+                mountPoint: document.getElementById("superset-container"), // any html element that can contain an iframe
+                fetchGuestToken: () => fetchGuestTokenFromBackend(),
+                dashboardUiConfig: {
+                    hideTitle: true,
+                    hideChartControls: true,
+                    hideTab: true,
+                    expanded: true
+                },
+            });
+        </h:outputScript>
+
+        <h:outputStylesheet>
+            #superset-container iframe {
+                width: 100%;
+                height: 100%;
+            }
+        </h:outputStylesheet>
+    </h:body>
+</html>
