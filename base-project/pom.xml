@@ -29,18 +29,18 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.10.1</version>
+				<version>3.13.0</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.2</version>
+				<version>3.4.0</version>
 			</plugin>
 
 			<!-- Wildfly -->
 			<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
-				<version>2.0.2.Final</version>
+				<version>4.2.2.Final</version>
 			</plugin>
 		</plugins>
 	</build>
