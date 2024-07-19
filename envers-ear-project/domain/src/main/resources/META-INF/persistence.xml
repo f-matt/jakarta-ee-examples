@@ -8,8 +8,5 @@
     <persistence-unit name="tmpPU">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>tmpDS</jta-data-source>
-		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-		</properties>
 	</persistence-unit>
 </persistence>
