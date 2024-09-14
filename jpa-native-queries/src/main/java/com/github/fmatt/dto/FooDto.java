@@ -8,12 +8,18 @@ public class FooDto {
 
     private String description;
 
+    private String status;
+
     private LocalDateTime createdAt;
 
-    public FooDto(Integer id, String description, LocalDateTime createdAt) {
+    public FooDto(Integer id, String description, String status, LocalDateTime createdAt) {
         this.id = id;
         this.description = description;
+        this.status = status;
         this.createdAt = createdAt;
+    }
+
+    public FooDto() {
     }
 
     public Integer getId() {
@@ -40,6 +46,12 @@ public class FooDto {
         this.createdAt = createdAt;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
-    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

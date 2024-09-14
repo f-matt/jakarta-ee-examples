@@ -13,14 +13,14 @@
         <h2>Entities:</h2>
         <ul>
             <ui:repeat var="foo" value="#{mainController.foos}">
-                <li>#{foo.id} - #{foo.description} - #{foo.createdAt}</li>
+                <li>#{foo.id} - #{foo.description} - #{foo.status} - #{foo.createdAt}</li>
             </ui:repeat>
         </ul>
         
         <h2>DTOs:</h2>
         <ul>
             <ui:repeat var="dto" value="#{mainController.dtos}">
-                <li>#{dto.id} - #{dto.description} - #{dto.createdAt}</li>
+                <li>#{dto.id} - #{dto.description} - #{dto.status} - #{dto.createdAt}</li>
             </ui:repeat>
         </ul>
 

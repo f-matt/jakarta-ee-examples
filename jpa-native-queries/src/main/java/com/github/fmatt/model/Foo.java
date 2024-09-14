@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
     query = "SELECT f FROM Foo f ORDER BY f.id")
 @NamedNativeQuery(name = "Foo.nativeFindAll",
     resultSetMapping = "FooDto",
-    query = "SELECT id, description, created_at FROM foos ORDER BY id")
+    query = "SELECT id, description, status, created_at FROM foos ORDER BY id")
 @SqlResultSetMapping(name = "FooDto",
     classes = {
         @ConstructorResult(
@@ -31,6 +31,7 @@ import jakarta.persistence.Table;
             columns = {
                 @ColumnResult(name = "id"),
                 @ColumnResult(name = "description"),
+                @ColumnResult(name = "status", type = String.class),
                 @ColumnResult(name = "created_at", type = LocalDateTime.class)
             }
         )
@@ -43,6 +44,8 @@ public class Foo implements Serializable {
     private Integer id;
 
     private String description;
+
+    private String status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -100,5 +103,13 @@ public class Foo implements Serializable {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }
