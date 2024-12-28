@@ -1,4 +1,5 @@
-<server description="Sample Liberty server">
+<?xml version="1.0" encoding="UTF-8" ?>
+<server description="ear-project">
 
     <featureManager>
         <feature>faces-4.0</feature>
@@ -7,25 +8,19 @@
         <feature>persistence-3.1</feature>
     </featureManager>
 
-    <library id="jdbcLib">
-        <fileset dir="jdbc" includes="*.jar"/>
-    </library>
-
-    <dataSource jndiName="jdbc/tmpDS">
-        <jdbcDriver libraryRef="jdbcLib"/>
-        <properties serverName="localhost" portNumber="5432" databaseName="tmp" user="postgres" password="123456"/>
-    </dataSource>
-
-    <library id="domain">
-        <fileset dir="${install.dir}/WEB-INF/lib/" includes="*.jar"/>
-    </library>
-
     <variable name="http.port" defaultValue="9080" />
     <variable name="https.port" defaultValue="9443" />
 
     <httpEndpoint host="*" httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint" />
 
-    <enterpriseApplication id="ear" location="ear.ear" name="ear">
-        <classloader commonLibraryRef="domain" />
-    </enterpriseApplication>
+    <dataSource id="tmpDS" jndiName="jdbc/tmpDS">
+        <jdbcDriver libraryRef="postgresql-library"/>
+        <properties serverName="localhost" portNumber="5432" databaseName="tmp" user="postgres" password="123456"/>
+    </dataSource>
+
+    <library id="postgresql-library">
+        <file name="${server.config.dir}/postgresql-42.7.4.jar" />
+    </library>
+
+    <enterpriseApplication id="ear" location="ear.ear" name="ear" />
 </server>

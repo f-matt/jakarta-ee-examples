@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.fmatt</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1</version>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>ejb</module>
+        <module>domain</module>
+        <module>ear</module>
+        <module>war</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.liberty.maven.plugin>3.11.2</version.liberty.maven.plugin>
+        <version.war.plugin>3.3.1</version.war.plugin>
+        <version.ejb.plugin>3.2.1</version.ejb.plugin>
+        <version.ear.plugin>3.3.0</version.ear.plugin>
+        <version.ejb>3.2</version.ejb>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <version.jakartaee.api>10.0.0</version.jakartaee.api>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>${version.jakartaee.api}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.fmatt</groupId>
+                <artifactId>domain</artifactId>
+                <version>0.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.fmatt</groupId>
+                <artifactId>ejb</artifactId>
+                <version>0.0.1</version>
+                <type>ejb</type>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.fmatt</groupId>
+                <artifactId>war</artifactId>
+                <version>0.0.1</version>
+                <type>war</type>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${version.ejb.plugin}</version>
+                    <configuration>
+                        <ejbVersion>${version.ejb}</ejbVersion>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>io.openliberty.tools</groupId>
+                    <artifactId>liberty-maven-plugin</artifactId>
+                    <version>${version.liberty.maven.plugin}</version>
+                    <configuration>
+                        <copyDependencies>
+                            <dependencyGroup>
+                                <location>jdbc</location>
+                                <dependency>
+                                    <groupId>org.postgresql</groupId>
+                                    <artifactId>postgresql</artifactId>
+                                    <version>42.7.4</version>
+                                </dependency>
+                            </dependencyGroup>
+                        </copyDependencies>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
