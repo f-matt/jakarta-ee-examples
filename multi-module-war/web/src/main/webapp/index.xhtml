@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>Example</title>
+</h:head>
+
+<h:body>
+	<h1>Multi-module war project example</h1>
+
+	<h:form>
+		<p>First data source:</p>
+
+		<h:dataTable id="tableA" value="#{indexView.entitiesA}" var="e">
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				#{e.id}
+			</h:column>
+
+			<h:column>
+				<f:facet name="description">Description</f:facet>
+				#{e.description}
+			</h:column>
+		</h:dataTable>
+
+		<h:inputText id="newEntityA" value="#{indexView.newEntityA}" />
+		<h:commandButton value="Add" actionListener="#{indexView.addEntityA}">
+			<f:ajax execute="newEntityA" render="tableA" />
+		</h:commandButton>
+		<hr />
+
+		<p>Second data source:</p>
+
+		<h:dataTable id="tableB" value="#{indexView.entitiesB}" var="e">
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				#{e.id}
+			</h:column>
+
+			<h:column>
+				<f:facet name="description">Description</f:facet>
+				#{e.description}
+			</h:column>
+		</h:dataTable>
+
+		<h:inputText id="newEntityB" value="#{indexView.newEntityB}" />
+		<h:commandButton value="Add" actionListener="#{indexView.addEntityB}">
+			<f:ajax execute="newEntityB" render="tableB" />
+		</h:commandButton>
+	</h:form>
+</h:body>
+
+</html>
