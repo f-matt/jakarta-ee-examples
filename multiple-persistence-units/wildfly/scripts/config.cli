@@ -1,0 +1,62 @@
+#
+# PostgreSQL
+#
+
+# Driver module
+echo "Installing PostgreSQL driver..."
+if (outcome == success) of /core-service=module-loading:module-info(name=org.postgresql)
+    echo "Postgresql module already installed, skipping."
+else
+    module add --name=org.postgresql --resources=wildfly/drivers/postgresql-42.7.4.jar --dependencies=javax.api,javax.transaction.api
+    echo "Done."
+end-if
+
+# Driver registration
+echo "Registering PostgreSQL driver..."
+if (outcome == success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource()
+    echo "Postgresql driver already registered, skipping."
+else
+    /subsystem=datasources/jdbc-driver=postgresql:add(driver-module-name="org.postgresql",driver-class-name=org.postgresql.Driver)
+    echo "Done."
+end-if
+
+# Data source registration
+echo "Registering data source..."
+if (outcome == success) of /subsystem=datasources/data-source=data-source-a:read-resource()
+    echo "Data source already registered, skipping."
+else
+    data-source add --jndi-name=java:/data-source-a --name=data-source-a --connection-url=jdbc:postgresql://localhost/tmp --driver-name=postgresql --user-name=postgres --password=123456
+    echo "Done."
+end-if
+
+
+#
+# MariaDB
+#
+
+# MariaDB: Driver module
+echo "Installing MariaDB driver..."
+if (outcome == success) of /core-service=module-loading:module-info(name=org.mariadb)
+    echo "MariaDB module already installed, skipping."
+else
+    module add --name=org.mariadb --resources=wildfly/drivers/mariadb-java-client-3.5.1.jar --dependencies=javax.api,javax.transaction.api
+    echo "Done."
+end-if
+
+# MariaDB: Driver registration
+echo "Registering MariaDB driver..."
+if (outcome == success) of /subsystem=datasources/jdbc-driver=mariadb:read-resource()
+    echo "MariaDB driver already registered, skipping."
+else
+    /subsystem=datasources/jdbc-driver=mariadb:add(driver-module-name="org.mariadb",driver-class-name=org.mariadb.jdbc.Driver)
+    echo "Done."
+end-if
+
+# MariaDB: Data source registration
+echo "Registering MariaDB data source..."
+if (outcome == success) of /subsystem=datasources/data-source=data-source-b:read-resource()
+    echo "Data source already registered, skipping."
+else
+    data-source add --jndi-name=java:/data-source-b --name=data-source-b --connection-url=jdbc:mariadb://localhost/tmp --driver-name=mariadb --user-name=root --password=123456
+    echo "Done."
+end-if
