@@ -1,5 +1,0 @@
-DROP TABLE IF EXISTS users_groups;
-
-DROP TABLE IF EXISTS groups;
-
-DROP TABLE IF EXISTS users;

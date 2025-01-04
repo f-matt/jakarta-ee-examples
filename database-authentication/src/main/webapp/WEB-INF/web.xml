@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="WebApp_ID" version="3.0">
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+		 version="6.0">
 
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>
 	</welcome-file-list>
 
 	<context-param>
-		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-name>jakarta.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
-	
+
+	<!-- Denied by default -->
 	<security-constraint>
-    	<web-resource-collection>
-    		<web-resource-name>default</web-resource-name>
-        	<url-pattern>/*</url-pattern>
-    	</web-resource-collection>
-    	<auth-constraint/>
+		<web-resource-collection>
+			<web-resource-name>default</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint/>
 	</security-constraint>
-	
+
+	<!-- Granted by default -->
 	<security-constraint>
-    	<web-resource-collection>
-    		<web-resource-name>anon</web-resource-name>
-        	<url-pattern>/jakarta.faces.resource/*</url-pattern>
-        	<url-pattern>/denied.jsf</url-pattern>
-        	<url-pattern>/login.jsf</url-pattern>
-        	<url-pattern>/index.jsf</url-pattern>
-    	</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>anon</web-resource-name>
+			<url-pattern>/jakarta.faces.resource/*</url-pattern>
+			<url-pattern>/denied.jsf</url-pattern>
+			<url-pattern>/login.jsf</url-pattern>
+			<url-pattern>/index.jsf</url-pattern>
+			<url-pattern>/</url-pattern>
+		</web-resource-collection>
 	</security-constraint>
-	
+
+	<!-- Access restricted to admins -->
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>admin</web-resource-name>
@@ -44,14 +48,4 @@
 	<security-role>
 		<role-name>ADMIN</role-name>
 	</security-role>
-	
-	<login-config>
-  		<auth-method>FORM</auth-method>
-  		<realm-name>myApplicationSecurityDomain</realm-name>
-  		<form-login-config>
-    		<form-login-page>/login.jsf</form-login-page>
-    		<form-error-page>/login.jsf?error=true</form-error-page>
-  		</form-login-config>
-	</login-config>
-	
 </web-app>

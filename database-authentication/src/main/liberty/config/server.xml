@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<server description="database-authentication">
+    <featureManager>
+        <feature>webProfile-10.0</feature>
+    </featureManager>
+
+    <!--
+    <logging traceSpecification="com.ibm.ws.security.*=fine" />
+    -->
+
+    <variable name="http.port" defaultValue="9080" />
+    <variable name="https.port" defaultValue="9443" />
+
+    <httpEndpoint host="*" httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint" />
+
+    <library id="postgresqlJdbc">
+        <fileset dir="jdbc" includes="*.jar" />
+    </library>
+
+    <jdbcDriver id="postgresqlDriver" libraryRef="postgresqlJdbc"/>
+    <dataSource id="tmpDS" jndiName="tmpDS" jdbcDriverRef="postgresqlDriver">
+        <properties serverName="localhost" portNumber="5432" databaseName="tmp" user="postgres" password="123456"/>
+    </dataSource>
+
+    <webApplication location="database-authentication.war" contextRoot="/app" />
+</server>

@@ -1,15 +1,22 @@
 package com.github.fmatt.view;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.SecurityContext;
+import jakarta.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
+import jakarta.security.enterprise.credential.Password;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 @Named
 @RequestScoped
@@ -19,40 +26,47 @@ public class AuthView {
 
 	@Inject
 	private FacesContext facesContext;
-	
+
+	@Inject
+	private SecurityContext securityContext;
+
+	@NotNull
 	private String username;
-	
+
+	@NotNull
 	private String password;
-		
-	public String login() {
+
+	public void login() {
+		HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+		try {
+			AuthenticationStatus status = securityContext.authenticate(request, response,
+					AuthenticationParameters.withParams()
+							.credential(new UsernamePasswordCredential(username, new Password(password))));
+
+			switch (status) {
+				case SUCCESS -> facesContext.getExternalContext().redirect("admin.jsf");
+                case SEND_CONTINUE -> facesContext.responseComplete();
+				case SEND_FAILURE -> {
+					return;
+				}
+				default ->
+						logger.severe("Error performing authentication, status = " + String.valueOf(status) + ".");
+			}
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	public String logout() {
 		HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
 
 		try {
-			request.login(username, password);
-			return "/index.jsf?faces-redirect=true";
-		} catch(ServletException e) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username/password", null));
-			return "/login.jsf";
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-            FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unknown error on login", null));
-			return "login.jsf";
-		}
-	}
-		
-	public String logout() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-		
-		try {
 			request.logout();
-			return "/login.jsf?faces-redirect=true&logout=true";
+			return "login.jsf?faces-redirect=true&logout=true";
 		} catch (ServletException e) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unknown error on logout", null));
-			return "/login.jsf?faces-redirect=true&error=true";
+			return "login.jsf?faces-redirect=true&logout-fail=true";
 		}
 	}
 
