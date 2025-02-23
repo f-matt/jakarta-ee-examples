@@ -1,7 +1,6 @@
 package com.github.fmatt.endpoint;
 
 import com.github.fmatt.dto.SampleDto;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;

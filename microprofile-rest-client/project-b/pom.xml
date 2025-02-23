@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>rest-client</artifactId>
+	<artifactId>project-b</artifactId>
 	<groupId>com.github.fmatt</groupId>
 	<packaging>war</packaging>
 	<version>0.0.1</version>
@@ -55,6 +55,12 @@
 				<version>${version.wildfly.maven.plugin}</version>
 				<configuration>
 					<feature-pack-location>wildfly@maven(org.jboss.universe:community-universe):current/final#32.0.1.Final</feature-pack-location>
+					<javaOpts>
+						<javaOpt>-Djboss.http.port=8081</javaOpt>
+						<javaOpt>-Djboss.https.port=8444</javaOpt>
+						<javaOpt>-Djboss.management.http.port=9991</javaOpt>
+						<javaOpt>-Djboss.management.https.port=9994</javaOpt>
+					</javaOpts>
 				</configuration>
 			</plugin>
 		</plugins>
