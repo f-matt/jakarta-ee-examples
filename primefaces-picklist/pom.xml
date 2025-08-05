@@ -11,26 +11,27 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<war.maven.plugin.version>3.2.2</war.maven.plugin.version>
 		<wildfly.maven.plugin.version>2.0.2.Final</wildfly.maven.plugin.version>
 		<primefaces.version>11.0.0</primefaces.version>
-		<omnifaces.version>3.13</omnifaces.version>
-		<javaee.version>8.0</javaee.version>
+		<omnifaces.version>4.0.1</omnifaces.version>
+		<jakartaee.version>10.0.0</jakartaee.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>${javaee.version}</version>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>${jakartaee.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
+			<classifier>jakarta</classifier>
 			<version>${primefaces.version}</version>
 		</dependency>
 
@@ -53,6 +54,12 @@
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${wildfly.maven.plugin.version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>io.openliberty.tools</groupId>
+				<artifactId>liberty-maven-plugin</artifactId>
+				<version>3.11.1</version>
 			</plugin>
 		</plugins>
 	</build>

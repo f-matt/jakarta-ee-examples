@@ -6,43 +6,50 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 import org.primefaces.model.DualListModel;
 
 @Named
 @ViewScoped
 public class IndexController implements Serializable {
 
-	private Logger logger = Logger.getAnonymousLogger();
+	private final Logger logger = Logger.getAnonymousLogger();
 
 	private List<MyEntity> source;
 
 	private List<MyEntity> target;
 	
 	private DualListModel<MyEntity> listModel;
+
+    private String available = "";
 	
 	private String selected = "";
 	
 	@PostConstruct
 	public void init() {
-		source = Arrays.asList(new MyEntity(1, "Entity A"), new MyEntity(2, "Entity B"), new MyEntity(3, "Entity C"));
+		source = Arrays.asList(new MyEntity(1, "Entity A"), new MyEntity(2, "Entity B"),
+				new MyEntity(3, "Entity C"));
 		target = new ArrayList<>();
 		
-		listModel = new DualListModel<MyEntity>(source, target);
+		listModel = new DualListModel<>(new ArrayList<>(source), new ArrayList<>(target));
 	}
 	
 	public void send() {
-		logger.info(listModel.getSource().toString());
-		logger.info(listModel.getTarget().toString());
+        StringBuilder builder = new StringBuilder();
+		for (MyEntity entity : listModel.getSource())
+            builder.append(entity.toString());
+        available = builder.toString();
 
-		selected = "";
-		
-		for (MyEntity entity : listModel.getTarget())
-			selected += (entity.toString() + " "); 
-	}
+        builder = new StringBuilder();
+        for (MyEntity entity : listModel.getTarget())
+            builder.append(entity.toString());
+        selected = builder.toString();
+
+        logger.severe("Available: " + available);
+        logger.severe("Selected: " + selected);
+    }
 
 	public DualListModel<MyEntity> getListModel() {
 		return listModel;
@@ -52,12 +59,38 @@ public class IndexController implements Serializable {
 		this.listModel = listModel;
 	}
 
-	public String getSelected() {
+    public String getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(String available) {
+        this.available = available;
+    }
+
+    public String getSelected() {
 		return selected;
 	}
 
 	public void setSelected(String selected) {
 		this.selected = selected;
 	}
+
+    public List<MyEntity> getSource() {
+        return source;
+    }
+
+    public void setSource(List<MyEntity> source) {
+        this.source = source;
+    }
+
+    public List<MyEntity> getTarget() {
+        return target;
+    }
+
+    public void setTarget(List<MyEntity> target) {
+        this.target = target;
+    }
+
+
 
 }

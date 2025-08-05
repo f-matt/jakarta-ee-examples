@@ -1,11 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" 
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
 	<h:head>
 		<meta charset="utf-8" />
@@ -16,21 +11,21 @@
 		<h4>Primefaces PickList</h4>
 	
 		<h:form id="mainForm">
-		 	<p:pickList value="#{indexController.listModel}" 
-				var="entity" 
-				itemValue="#{entity}" 
-				itemLabel="#{entity.description}"
-				converter="myEntityConverter">
-
-        	</p:pickList>
+		 	<p:pickList id="picklist" value="#{indexController.listModel}" var="entity" itemValue="#{entity}"
+                        itemLabel="#{entity.description}">
+                <o:converter converterId="omnifaces.ListConverter" list="#{indexController.source}" />
+            </p:pickList>
         	
-        	<p:outputPanel id="pnlOutput" styleClass="p-grid">
-        		<div class="p-col-12">
-        			<p:commandButton id="btnSend" value="Send" action="#{indexController.send}" update="pnlOutput" />
+        	<p:outputPanel id="pnlOutput">
+        		<div>
+        			<p:commandButton id="btnSend" value="Send" action="#{indexController.send}" update="@form" />
         		</div>
-        		
-        		<div class="p-col-2">Selected:</div>
-        		<div class="p-col-10">#{indexController.selected}</div>
+
+                <div>Available:</div>
+                <div>#{indexController.available}</div>
+                <br/>
+        		<div>Selected:</div>
+        		<div>#{indexController.selected}</div>
 			</p:outputPanel>
 		</h:form>
 	</h:body>
