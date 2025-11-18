@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Asynchronous</title>
+    </h:head>
+    
+    <h:body>
+        <h3>PDF Download</h3>
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false">
+            <span class="pi pi-spinner pi-spin" style="font-size:3rem" />
+        </p:dialog>
+    
+        <h:form>
+            <p:commandButton value="Create report" icon="pi pi-plus" action="#{downloadController.create}" />
+            <br/>
+            <br/>
+
+            <p:inputTextarea id="txtStatus" readonly="true" value="#{downloadController.status}"
+                             rendered="#{not empty downloadController.status}" />
+            <br/>
+            <br/>
+
+            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                             icon="pi pi-arrow-down" rendered="#{not empty downloadController.message}">
+                <p:fileDownload value="#{downloadController.download()}"/>
+            </p:commandButton>
+
+            <p:poll interval="1" widgetVar="poll" listener="#{downloadController.updateStatus}" update="@form"
+                    autoStart="false" />
+        </h:form>
+
+        <script>
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+        </script>
+    </h:body>
+</html>

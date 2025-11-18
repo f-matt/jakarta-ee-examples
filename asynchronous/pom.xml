@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.fmatt</groupId>
+	<artifactId>asynchronous</artifactId>
+
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+
+        <version.jakartaee>10.0.0.</version.jakartaee>
+		<version.primefaces>12.0.0</version.primefaces>
+
+        <version.liberty>3.11.1</version.liberty>
+
+        <version.openpdf>2.0.0</version.openpdf>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>9.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<classifier>jakarta</classifier>
+			<version>${version.primefaces}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+			<version>${version.openpdf}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>asynchronous</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+			</plugin>
+
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>${version.liberty}</version>
+            </plugin>
+		</plugins>
+	</build>
+</project>
