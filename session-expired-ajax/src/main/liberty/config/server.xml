@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<server description="session-expired-ajax">
+    <featureManager>
+        <feature>webProfile-10.0</feature>
+    </featureManager>
+
+    <!--
+    <logging traceSpecification="com.ibm.ws.security.*=fine" />
+    -->
+
+    <httpSession securityIntegrationEnabled="false" invalidateOnUnauthorizedSessionRequest="false" />
+
+    <webAppSecurity postParamSaveMethod="none" authCacheEnabled="false" />
+
+    <variable name="http.port" defaultValue="9080" />
+    <variable name="https.port" defaultValue="9443" />
+
+    <httpEndpoint host="*" httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint" />
+
+    <webApplication location="session-expired-ajax.war" contextRoot="/app" />
+</server>

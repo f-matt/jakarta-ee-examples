@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>App</title>
+    </h:head>
+    
+    <h:body>
+        <h3>Login</h3>
+
+        <h:form id="formLogin">
+            <h:panelGroup layout="block" rendered="#{param['error']}" styleClass="p-col-12" style="color: red">
+                Invalid username/password.
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{param['logout-fail']}" styleClass="p-col-12" style="color: red">
+                Error performing logout.
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{param['logout']}" styleClass="p-col-12" style="color: blue">
+                User successfully logged out!
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{param['expired']}" styleClass="p-col-12" style="color: red">
+                Session expired, please log in again.
+            </h:panelGroup>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel for="username" value="Username:" />
+                <p:inputText id="username" required="true" value="#{authView.username}" />
+
+                <p:outputLabel for="password" value="Password:" />
+                <p:password id="password" required="true" value="#{authView.password}" />
+            </h:panelGrid>
+
+            <p:commandButton value="Login" action="#{authView.login}" ajax="false" />
+
+            <br/>
+            <br/>
+            <h:link value="Index" outcome="index" />
+        </h:form>
+    </h:body>
+</html>

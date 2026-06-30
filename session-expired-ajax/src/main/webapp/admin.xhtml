@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>App</title>
+        <script type="text/javascript">
+            // <![CDATA[
+            const maxSessionSeconds = parseInt("#{session.maxInactiveInterval}");
+            let remainingSeconds = maxSessionSeconds;
+            let countdownInterval;
+
+            function startCountdown() {
+                clearInterval(countdownInterval);
+                remainingSeconds = maxSessionSeconds;
+
+                countdownInterval = setInterval(function() {
+                    if (remainingSeconds <= 0) {
+                        clearInterval(countdownInterval);
+                        window.location.href = "#{request.contextPath}/login.jsf?expired=true";
+                        return;
+                    }
+
+                    remainingSeconds--;
+
+                    let mins = Math.floor(remainingSeconds / 60);
+                    let secs = remainingSeconds % 60;
+
+                    let formattedMins = mins < 10 ? '0' + mins : mins;
+                    let formattedSecs = secs < 10 ? '0' + secs : secs;
+
+                    document.getElementById('session-countdown').innerHTML = formattedMins + ':' + formattedSecs;
+                }, 1000);
+            }
+
+            $(document).on('pfAjaxSuccess', function() {
+                startCountdown();
+            });
+
+            $(document).ready(function() {
+                startCountdown();
+
+                // Handle expired sessions in ajax requests
+                var originalPrimeFacesHandle = PrimeFaces.ajax.Response.handle;
+                PrimeFaces.ajax.Response.handle = function(xml, status, xhr, focusInfo) {
+                    if (xml && xml.documentElement) {
+                        var updates = xml.documentElement.getElementsByTagName("update");
+                        if (updates && updates.length > 0) {
+                            var primeiroUpdateId = updates[0].getAttribute("id");
+                            if (updates.length === 1 && primeiroUpdateId &&
+                                primeiroUpdateId.indexOf("ViewState") !== -1) {
+                                window.location.href = "#{request.contextPath}/login.jsf?expired=true";
+                                return false;
+                            }
+                        }
+                    }
+                    return originalPrimeFacesHandle.apply(this, arguments);
+                };
+            });
+            // ]]>
+        </script>
+    </h:head>
+    
+    <h:body>
+        <div class="session-box" style="padding: 10px; background: #f8f9fa; border: 1px solid #dee2e6;">
+            Session expires in : <span id="session-countdown">--:--</span>
+        </div>
+
+       <h3>Only for admins.</h3>
+        <br/>
+        <br/>
+
+        <h:form>
+            <h:link value="Index" outcome="index" />
+            <br/>
+            <br/>
+
+            <h4>Last update: #{authView.lastUpdate}</h4>
+
+            <p:commandButton value="Ajax" action="#{authView.ajaxUpdate}" update="@form" />
+            <br/>
+            <br/>
+
+            <p:commandButton value="Logout" action="#{authView.logout}" />
+        </h:form>
+
+        <p:idleMonitor timeout="#{(session.maxInactiveInterval - 120) * 1000}"
+                       onidle="PF('timeoutDialog').show();" />
+
+        <p:dialog header="Sessin expiration" widgetVar="timeoutDialog" modal="true" closable="false" width="400">
+            <h:outputText value="Your session is about to expire."  />
+
+            <h:form>
+                <p:commandButton value="Renew session" process="@this" update="@this"
+                                 oncomplete="PF('timeoutDialog').hide();" />
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
